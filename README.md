@@ -1,4 +1,4 @@
-# 프로젝트 모음집
+# 중고마켓 만들기
 
 ```bash
 npx create-next-app@latest --typescript
