@@ -7,4 +7,8 @@ npm run build
 
 npm run start
 
+# prisma 설치
+npm install -D prisma
+npx prisma init
+
 ```
