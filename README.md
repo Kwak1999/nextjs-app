@@ -1,6 +1,80 @@
 # 중고마켓 만들기
+
+<details><summary>진행과정 정리</summary>
+    <details>
+    <summary>1일차</summary>
+    react-app 생성, Navbar 컴포넌트 생성, User,Admin 페이지 생성
+    - 전체적인 파일구조만 간단하게 생성하고 Navbar 부분만 디자인 진행
+    </details>
+</details>
+
+```bash
+npx create-next-app@latest --typescript
+
+npm run build
+
+npm run start
+
+# prisma 설치
+npm install -D prisma
+npx prisma init
+
+# schema push
+npx prisma db push
+
+# next-auth 설치
+npm install next-auth @prisma/client @next-auth/prisma-adapter
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <details>
-<summary>🧩 NextAuth Prisma 버전 충돌 오류 해결 기록</summary>
+<summary>NextAuth Prisma 버전 충돌 오류 해결 기록</summary>
 
 ## ⚠️ 오류 개요
 
@@ -47,7 +121,7 @@ https://next-auth.js.org/errors#client_fetch_error
 
 <details>
     <summary>자세히 보기</summary>
-    
+
     ```json
     {
       "dependencies": {
@@ -85,28 +159,3 @@ prisma → ^4.13.0
 - // ✅ 수정 코드
   import { PrismaClient } from "@/generated/prisma";
 </details>
-
-
-
-
-
-
-
-```bash
-npx create-next-app@latest --typescript
-
-npm run build
-
-npm run start
-
-# prisma 설치
-npm install -D prisma
-npx prisma init
-
-# schema push
-npx prisma db push
-
-# next-auth 설치
-npm install next-auth @prisma/client @next-auth/prisma-adapter
-
-```
