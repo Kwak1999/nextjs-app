@@ -41,8 +41,19 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt", // 또는 'database'
     },
 
-    // ✅ 보안용 시크릿키
-    secret: process.env.NEXTAUTH_SECRET,
+    // session에 jwt 데이터 넣는 과정
+    callbacks: {
+        async jwt({token, user}){
+            return {...token, ...user};
+        },
+
+        async session({session, token})  {
+            session.user = token
+            return session;
+      }
+    }
+    // // ✅ 보안용 시크릿키
+    // secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions)

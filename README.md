@@ -90,6 +90,8 @@ prisma → ^4.13.0
 
 
 
+
+
 ```bash
 npx create-next-app@latest --typescript
 
