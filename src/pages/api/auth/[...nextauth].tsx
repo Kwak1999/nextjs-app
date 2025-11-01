@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, req) {
                 // 예시 사용자 (실제 DB 검증 로직으로 교체 가능)
-                const user = { id: "1", name: "J Smith", email: "exam@gmail.com" };
+                const user = { id: "1", name: "J Smith", email: "exam@gmail.com", role: "Admin" };
 
                 if (user) {
                     return user; // 로그인 성공
@@ -39,6 +39,10 @@ export const authOptions: NextAuthOptions = {
     // ✅ 세션 관리 방식
     session: {
         strategy: "jwt", // 또는 'database'
+    },
+    jwt: {
+        secret: process.env.JWT_SECRET,
+        maxAge: 30 * 24 * 60 * 60 // 30days
     },
 
     // session에 jwt 데이터 넣는 과정
