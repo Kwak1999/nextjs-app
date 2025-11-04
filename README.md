@@ -8,7 +8,6 @@
 
 ## 가이드
 
-
 ```bash
 # Next.js 앱 생성
 npx create-next-app@latest --typescript
