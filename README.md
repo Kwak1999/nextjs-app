@@ -302,6 +302,10 @@ npm i react-icons
 
 # axios
 npm i axios
+
+# bcryptjs
+npm install bcryptjs
+
 ```
 
 ---

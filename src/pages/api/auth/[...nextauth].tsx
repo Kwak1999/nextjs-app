@@ -1,12 +1,10 @@
-import { PrismaClient } from "@/generated/prisma";
+import prisma from '@/helpers/prismadb';
 import { PrismaAdapter } from "@auth/prisma-adapter"; // ✅ 최신 패키지명
 // import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import Google from "next-auth/providers/google";
-
-
-const prisma = new PrismaClient();
+import bcrypt from "bcryptjs";
 
 
 export const authOptions: NextAuthOptions = {
@@ -20,18 +18,32 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "jsmith" },
-                password: { label: "Password", type: "password" },
+                username: { label: "Username", type: "text"},
+                password: { label: "Password", type: "password"}
             },
             async authorize(credentials, req) {
-                // 예시 사용자 (실제 DB 검증 로직으로 교체 가능)
-                const user = { id: "1", name: "J Smith", email: "exam@gmail.com", role: "Admin" };
-
-                if (user) {
-                    return user; // 로그인 성공
-                } else {
-                    return null; // 로그인 실패
+                if(!credentials?.email || !credentials?.password){
+                    throw new Error('Invalid credentials');
                 }
+
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email:credentials.email
+                    }
+                })
+
+                if(!user || !user?.hashedPassword){
+                    throw new Error('Invalid credentials')
+                }
+
+                const isCorrectPassword = await bcrypt.compare(
+                    credentials.password,
+                    user.hashedPassword
+                )
+                if(!isCorrectPassword){
+                    throw new Error('Invalid credentials');
+                }
+                return user;
             },
         }),
     ],

@@ -58,17 +58,17 @@ const LoginPage = () => {
                     required
                 />
 
-                <Button label="Login" />
+                <Button label="Register"
+                />
+                <div className='text-center'>
+                    <p className='text-gray-400'>
+                        Not a member? {""}
+                        <Link href="/auth/register" className='text-black hover:underline'>
+                            Register
+                        </Link>
+                    </p>
+                </div>
             </form>
-
-            <div>
-                <p className='text-gray-400'>
-                    Not a member? {""}
-                    <Link href="/auth/register" className='text-black hover:underline'>
-                        Register
-                    </Link>
-                </p>
-            </div>
         </section>
     );
 };
