@@ -299,6 +299,9 @@ npm install react-hook-form
 
 # React Icons
 npm i react-icons
+
+# axios
+npm i axios
 ```
 
 ---
