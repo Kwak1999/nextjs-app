@@ -3,6 +3,9 @@ import Link from "next/link";
 import {signIn, signOut} from "next-auth/react";
 import {User} from '@prisma/client'
 
+// NavItem 컴포넌트가 모바일 메뉴 여부(mobile)와 현재 로그인 유저(currentUser)를 전달받을 수 있도록 인터페이스 정의
+// - mobile?: boolean → 모바일 메뉴인지 여부를 판단 (true일 경우 세로 배치)
+// - currentUser?: User | null → 로그인된 유저 정보 (없으면 null)
 interface NavItemProps {
     mobile?: boolean;
     currentUser?: User | null;

@@ -4,6 +4,7 @@ import Link from "next/link";
 import NavItem from "@/app/components/NavItem";
 import { User } from "@prisma/client";
 
+// Navbar가 서버로부터 받은 currentUser(로그인한 유저 정보)를 props로 전달받을 수 있도록 타입 정의
 interface NavbarProps {
     currentUser?: User | null;
 }
