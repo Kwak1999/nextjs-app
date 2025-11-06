@@ -2,9 +2,15 @@
 import React, {useState} from 'react';
 import Link from "next/link";
 import NavItem from "@/app/components/NavItem";
+import { User } from "@prisma/client";
 
-const Navbar = () => {
+interface NavbarProps {
+    currentUser?: User | null;
+}
+
+const Navbar = ({currentUser}:NavbarProps) => {
     const [menu, setMenu] = useState(false)
+    console.log('current' ,currentUser);
 
     const handleMenu = () => {
         setMenu(!menu);
@@ -27,13 +33,13 @@ const Navbar = () => {
 
                 {/* small 사이즈가 되면 NavItem 숨기기 */}
                 <div className='hidden sm:block'>
-                    <NavItem />
+                    <NavItem currentUser={currentUser} />
                 </div>
             </div>
 
             {/* small크기 이상일 때 숨기기 */}
             <div className='block sm:hidden'>
-                {!menu ? null : <NavItem mobile />}
+                {!menu ? null : <NavItem mobile currentUser={currentUser} />}
             </div>
         </nav>
     );
