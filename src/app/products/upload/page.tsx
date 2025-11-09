@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
 import Input from "@/app/components/Input";
+import Container from '@/app/components/Container';
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/app/components/Button";
-import { Container } from "postcss";
 import Heading from "@/app/components/Heading";
 import ImageUpload from "@/app/components/ImageUpload"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
 
@@ -46,7 +46,7 @@ const ProductUploadPage = () => {
 
     return (
         <Container>
-            <div className="max-w-screen-lg">
+            <div className="max-w-screen-lg mx-auto">
                 {/* 🧾 상품 등록 폼 */}
                 <form
                     className="flex flex-col gap-8"
@@ -58,9 +58,11 @@ const ProductUploadPage = () => {
                     />
 
                     <ImageUpload
+                        // ✅ 이미지 업로드 후, Cloudinary에서 받은 URL을 react-hook-form의 "imageSrc" 필드에 저장
                         onChange={(value) => setCustomValue("imageSrc", value)}
-                        value={imageSrc}
 
+                        // ✅ 현재 선택된 이미지 URL (폼의 "imageSrc" 값)
+                        value={imageSrc}
                     />
 
                     {/* 상품명 입력 */}
