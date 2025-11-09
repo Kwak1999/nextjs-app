@@ -3,7 +3,9 @@ import React from 'react';
 import Input from "@/app/components/Input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/app/components/Button";
-import { Container } from "postcss"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
+import { Container } from "postcss";
+import Heading from "@/app/components/Heading";
+import ImageUpload from "@/app/components/ImageUpload"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
 
 const ProductUploadPage = () => {
 
@@ -30,11 +32,17 @@ const ProductUploadPage = () => {
         }
     });
 
+    const imageSrc = watch('imageSrc')
+
     // 🔹 폼 제출 핸들러 (나중에 API 요청 연결 예정)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
         // TODO: 서버에 상품 데이터 전송 로직 추가 예정
     };
+
+    const setCustomValue = (id:string, value: any) => {
+        setValue(id, value)
+    }
 
     return (
         <Container>
@@ -44,6 +52,17 @@ const ProductUploadPage = () => {
                     className="flex flex-col gap-8"
                     onSubmit={handleSubmit(onSubmit)}
                 >
+                    <Heading
+                        title="Product Upload"
+                        subtitle="upload your product"
+                    />
+
+                    <ImageUpload
+                        onChange={(value) => setCustomValue("imageSrc", value)}
+                        value={imageSrc}
+
+                    />
+
                     {/* 상품명 입력 */}
                     <Input
                         id="title"

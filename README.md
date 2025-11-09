@@ -38,6 +38,9 @@ npm i axios
 # bcryptjs
 npm install bcryptjs
 
+# next-cloudinary
+npm install next-cloudinary
+
 ```
 
 ---
