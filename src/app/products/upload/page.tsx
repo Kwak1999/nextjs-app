@@ -5,7 +5,9 @@ import Container from '@/app/components/Container';
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
-import ImageUpload from "@/app/components/ImageUpload"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
+import ImageUpload from "@/app/components/ImageUpload";
+import { categories } from '@/app/components/categories/Categories';
+import CategoryInput from '@/app/components/categories/CategoryInput'; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
 
 const ProductUploadPage = () => {
 
@@ -33,6 +35,10 @@ const ProductUploadPage = () => {
     });
 
     const imageSrc = watch('imageSrc')
+    const category = watch('category');
+
+    // const latitude = watch('latitude');
+    // const longitude = watch('longitude');
 
     // 🔹 폼 제출 핸들러 (나중에 API 요청 연결 예정)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -102,15 +108,32 @@ const ProductUploadPage = () => {
                     {/* 카테고리 선택 영역 (추후 카테고리 컴포넌트 추가 예정) */}
                     <div
                         className="
-                            grid
-                            grid-cols-1
-                            md:grid-cols-2
-                            gap-3
-                            max-h-[50vh]
-                            overflow-y-auto
-                        "
+                        grid
+                        grid-cols-1        // 기본 1열
+                        md:grid-cols-2     // 중간 화면 이상에서는 2열 배치
+                        gap-3              // 각 항목 간격
+                        max-h-[50vh]       // 최대 높이 제한 (화면 절반)
+                        overflow-y-auto    // 스크롤 가능 (카테고리 많을 때)
+                    "
                     >
-                        {/* Category 선택 컴포넌트 자리 */}
+                        {/* ✅ 카테고리 선택 입력 영역 */}
+                        {/* CategoryInput 컴포넌트를 categories 배열만큼 반복 렌더링 */}
+                        {categories.map((item) => (
+                            <div key={item.label} className='col-span-1'>
+                                <CategoryInput
+                                    // 🔹 카테고리 클릭 시 폼의 'category' 값 변경
+                                    onClick={(category) => setCustomValue('category', category)}
+
+                                    // 🔹 현재 선택된 카테고리 여부 판단
+                                    selected={category === item.path}
+
+                                    // 🔹 표시될 텍스트 및 아이콘
+                                    label={item.label}
+                                    icon={item.icon}
+                                    path={item.path}
+                                />
+                            </div>
+                        ))}
                     </div>
                     <hr />
 
