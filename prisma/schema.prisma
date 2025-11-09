@@ -78,6 +78,7 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+// 상품 UI
 model Product {
   id String @id @default(cuid())
   title String
