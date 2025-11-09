@@ -62,6 +62,9 @@ model User {
   updatedAt DateTime @updatedAt
 
   userType UserType @default(User)
+  Product Product[]
+
+  favoriteIds String[]
 
   @@map("users")
 }
@@ -73,4 +76,20 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Product {
+  id String @id @default(cuid())
+  title String
+  decription String
+  imageSrc String
+  category String
+  userId String
+  price Int
+  latitude Float
+  longitude Float
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  User User[]
 }
