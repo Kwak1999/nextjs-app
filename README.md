@@ -41,6 +41,8 @@ npm install bcryptjs
 # next-cloudinary
 npm install next-cloudinary
 
+# kakao-maps-sdk
+npm i react-kakao-maps-sdk
 ```
 
 ---

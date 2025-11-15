@@ -7,7 +7,8 @@ import Button from "@/app/components/Button";
 import Heading from "@/app/components/Heading";
 import ImageUpload from "@/app/components/ImageUpload";
 import { categories } from '@/app/components/categories/Categories';
-import CategoryInput from '@/app/components/categories/CategoryInput'; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
+import CategoryInput from '@/app/components/categories/CategoryInput';
+import dynamic from "next/dynamic"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
 
 const ProductUploadPage = () => {
 
@@ -37,8 +38,12 @@ const ProductUploadPage = () => {
     const imageSrc = watch('imageSrc')
     const category = watch('category');
 
-    // const latitude = watch('latitude');
-    // const longitude = watch('longitude');
+    const latitude = watch('latitude');
+    const longitude = watch('longitude');
+
+    const KakaoMap = dynamic(() => import('@/app/components/KakaoMap'), {
+        ssr: false
+    });
 
     // 🔹 폼 제출 핸들러 (나중에 API 요청 연결 예정)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -139,7 +144,11 @@ const ProductUploadPage = () => {
 
                     {/* 위치 선택 지도 (카카오맵 컴포넌트 자리) */}
                     {/* KakaoMap */}
-
+                    <KakaoMap
+                        setCustomValue={setCustomValue}
+                        latitude={latitude}
+                        longitude={longitude}
+                    />
                     {/* 폼 제출 버튼 */}
                     <Button label="상품 생성하기" />
                 </form>

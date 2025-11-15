@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,10 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <Navbar currentUser = {currentUser}/>
             {children}
+            <Script
+                type="text/javascript"
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e2b95aef7c527ed8c028650433714012&libraries=services,clusterer&autoload=false"
+            />
       </body>
     </html>
   );
