@@ -82,7 +82,7 @@ model VerificationToken {
 model Product {
   id String @id @default(cuid())
   title String
-  decription String
+  description String
   imageSrc String
   category String
   userId String

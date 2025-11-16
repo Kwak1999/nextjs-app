@@ -8,10 +8,15 @@ import Heading from "@/app/components/Heading";
 import ImageUpload from "@/app/components/ImageUpload";
 import { categories } from '@/app/components/categories/Categories';
 import CategoryInput from '@/app/components/categories/CategoryInput';
-import dynamic from "next/dynamic"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
+import dynamic from "next/dynamic";
+import axios from "axios";
+import {useRouter} from "next/navigation"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
+
+
 
 const ProductUploadPage = () => {
 
+    const router = useRouter();
     // 🔹 로딩 상태 관리
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -35,20 +40,34 @@ const ProductUploadPage = () => {
         }
     });
 
+    const KakaoMap = dynamic(() => import('@/app/components/KakaoMap'), {
+        ssr: false
+    });
+
     const imageSrc = watch('imageSrc')
     const category = watch('category');
 
     const latitude = watch('latitude');
     const longitude = watch('longitude');
 
-    const KakaoMap = dynamic(() => import('@/app/components/KakaoMap'), {
-        ssr: false
-    });
+
 
     // 🔹 폼 제출 핸들러 (나중에 API 요청 연결 예정)
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         console.log(data);
-        // TODO: 서버에 상품 데이터 전송 로직 추가 예정
+        setIsLoading(true);
+
+        axios.post('/api/products', data)
+            .then(res => {
+                console.log('ok');
+                // router.push(`/products/${res.data.id}`);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
     };
 
     const setCustomValue = (id:string, value: any) => {
