@@ -1,4 +1,6 @@
 import getProducts, {ProductsParams} from "@/app/actions/getProducts";
+import Container from "@/app/components/Container";
+import EmptyState from "@/app/components/EmptyState";
 
 interface HomeProps {
     searchParams: ProductsParams
@@ -12,9 +14,22 @@ export default async function Home({searchParams}: HomeProps) {
     console.log(products)
 
     return (
-      <main>
-          누구나 볼 수 있는 페이지
-      </main>
+      <Container>
+        {/*    Categories     */}
+        {/*<EmptyState />*/}
+
+          {
+              products?.data.length === 0
+              ?
+              <EmptyState />
+              :
+              <>
+                <div>
+ddd
+                </div>
+              </>
+          }
+      </Container>
   )
 
 }
