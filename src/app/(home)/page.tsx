@@ -3,11 +3,11 @@ import Container from "@/app/components/Container";
 import EmptyState from "@/app/components/EmptyState";
 import ProductCard from "@/app/components/ProductCard";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import FloatingButton from "@/app/components/FloatingButton";
 
 interface HomeProps {
     searchParams: ProductsParams
 }
-
 
 export default async function Home({searchParams}: HomeProps) {
 
@@ -38,6 +38,10 @@ export default async function Home({searchParams}: HomeProps) {
                 </div>
               </>
           }
+
+          <FloatingButton href="/products/upload">
+              +
+          </FloatingButton>
       </Container>
   )
 }
