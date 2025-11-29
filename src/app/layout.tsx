@@ -5,6 +5,7 @@ import Navbar from "@/app/components/Navbar";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import Script from "next/script";
+import ToastProvider from "@/app/components/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <Navbar currentUser = {currentUser}/>
+            <ToastProvider />
             {children}
             <Script
                 type="text/javascript"
