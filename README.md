@@ -44,6 +44,9 @@ npm install next-cloudinary
 # kakao-maps-sdk
 npm i react-kakao-maps-sdk
 
+#toastify
+npm i react-toastify
+
 #dayjs
 npm i dayjs
 ```
