@@ -141,7 +141,7 @@ https://next-auth.js.org/errors#client_fetch_error
 
 ### 🧠 코드 수정 내용
 
-`[...nextauth].tsx`의 Prisma import 경로 수정:
+`[...nextauth].ts`의 Prisma import 경로 수정:
 
 ```diff
 - import { PrismaClient } from "@prisma/client";

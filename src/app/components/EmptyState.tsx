@@ -12,14 +12,12 @@ interface EmptyStateProps {
 }
 
 const EmptyState = ({
-    title = '일치하는게 없습니다.',
-    subtitle = '일부 필터를 변경하거나 제거하십시오.',
-    showReset
-
+                        title = '일치하는 게 없습니다.',
+                        subtitle = '일부 필터를 변경하거나 제거해 보십시오.',
+                        showReset
                     }: EmptyStateProps) => {
 
-    const router = useRouter()
-
+    const router = useRouter();
     return (
         <div
             className='
@@ -36,19 +34,17 @@ const EmptyState = ({
                 title={title}
                 subtitle={subtitle}
             />
-
             <div className='w-48 mt-4'>
                 {showReset &&
                     <Button
                         outline
                         label="모든 필터 제거"
-                        onclick={() => router.push('/')}
+                        onClick={() => router.push('/')}
                     />
-
                 }
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default EmptyState;
+export default EmptyState

@@ -68,7 +68,7 @@ export const authOptions: NextAuthOptions = {
         async session({session, token})  {
             session.user = token
             return session;
-      }
+        }
     }
     // // ✅ 보안용 시크릿키
     // secret: process.env.NEXTAUTH_SECRET,
