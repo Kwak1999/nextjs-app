@@ -66,7 +66,7 @@ model User {
 
   favoriteIds String[]
 
-  @@map("users")
+  @@map("User")
 }
 
 model VerificationToken {
