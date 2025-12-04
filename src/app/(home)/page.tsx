@@ -5,12 +5,19 @@ import ProductCard from "@/app/components/ProductCard";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import FloatingButton from "@/app/components/FloatingButton";
 import Categories from "@/app/components/categories/Categories";
+import Pagination from "@/app/components/Pagination";
+import { PRODUCTS_PER_PAGE } from "@/types/constants";
 
 interface HomeProps {
     searchParams: ProductsParams
 }
 
 export default async function Home({searchParams}: HomeProps) {
+
+    const page = searchParams?.page;
+    const pageNum = typeof page === 'string' ? Number(page) : 1;
+    console.log('pageNum', pageNum);
+
 
     const params = await searchParams;  // ✅ Promise 풀기
     const products = await getProducts(params);  // 이제 안전함
@@ -41,6 +48,8 @@ export default async function Home({searchParams}: HomeProps) {
                 </div>
               </>
           }
+
+          <Pagination page={pageNum} totalItems={products.totalItems} perPage={PRODUCTS_PER_PAGE} />
 
           <FloatingButton href="/products/upload">
               +

@@ -49,6 +49,9 @@ npm i react-toastify
 
 #dayjs
 npm i dayjs
+
+#pagination
+npm i @lucasmogari/react-pagination
 ```
 
 ---
