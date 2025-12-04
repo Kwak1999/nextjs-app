@@ -52,6 +52,9 @@ npm i dayjs
 
 #pagination
 npm i @lucasmogari/react-pagination
+
+#query-string
+npm i query-string
 ```
 
 ---
