@@ -1,6 +1,12 @@
 'use client'
 import React from 'react';
 import {Product, User} from "@prisma/client";
+import Container from "@/app/components/Container";
+import ProductHead from "@/app/components/products/ProductHead";
+import ProductInfo from "@/app/components/products/ProductInfo";
+import dynamic from "next/dynamic";
+import Button from "@/app/components/Button";
+import {useRouter} from "next/navigation";
 
 interface ProductClientProps {
     product: Product & {user: User};
@@ -8,10 +14,44 @@ interface ProductClientProps {
 }
 
 const ProductClient = ({product, currentUser}: ProductClientProps) => {
+
+    const router = useRouter()
+
+    const KakaoMap = dynamic(() => import('@/app/components/KakaoMap'), {
+        ssr: false
+    });
+
     return (
-        <div>
-            
-        </div>
+        <Container>
+            <div className='max-w-screen-lg mx-auto'>
+                <div className='flex flex-col gap-6'>
+                    <ProductHead
+                        title={product.title}
+                        imageSrc={product.imageSrc}
+                        id={product.id}
+                        currentUser={currentUser}
+                    />
+                    <div
+                        className='grid grid-cols-1 mt-6 md:grid-cols-2 md:gap-10'
+                    >
+                        <ProductInfo />
+                        <div>
+                            <KakaoMap
+                                detailPage
+                                latitude={product.latitude}
+                                longitude={product.longitude}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className='mt-10'>
+                    <Button
+                        label='채팅하기'
+                        onClick={() => router.push('/chat')}
+                    />
+                </div>
+            </div>
+        </Container>
     );
 };
 
