@@ -7,6 +7,7 @@ import ProductInfo from "@/app/components/products/ProductInfo";
 import dynamic from "next/dynamic";
 import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
+import {categories} from "@/app/components/categories/Categories";
 
 interface ProductClientProps {
     product: Product & {user: User};
@@ -21,6 +22,8 @@ const ProductClient = ({product, currentUser}: ProductClientProps) => {
         ssr: false
     });
 
+    const category = categories.find((item) => item.path === product.category)
+
     return (
         <Container>
             <div className='max-w-screen-lg mx-auto'>
@@ -34,7 +37,12 @@ const ProductClient = ({product, currentUser}: ProductClientProps) => {
                     <div
                         className='grid grid-cols-1 mt-6 md:grid-cols-2 md:gap-10'
                     >
-                        <ProductInfo />
+                        <ProductInfo
+                            user={product.user}
+                            category={category}
+                            createdAt={product.createdAt}
+                            description={product.description}
+                        />
                         <div>
                             <KakaoMap
                                 detailPage
