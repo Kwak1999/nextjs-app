@@ -9,22 +9,20 @@ import Pagination from "@/app/components/Pagination";
 import { PRODUCTS_PER_PAGE } from "@/types/constants";
 
 interface HomeProps {
-    searchParams: ProductsParams
+    // searchParams: ProductsParams
+    searchParams: Promise<ProductsParams>; // ✅ Promise로 변경
 }
 
 export default async function Home({searchParams}: HomeProps) {
-
-    const page = searchParams?.page;
-    const pageNum = typeof page === 'string' ? Number(page) : 1;
-    console.log('pageNum', pageNum);
-
-
     const params = await searchParams;  // ✅ Promise 풀기
+
+    const page = params.page;
+    // const page = searchParams?.page;
+
+    const pageNum = typeof page === 'string' ? Number(page) : 1;
+
     const products = await getProducts(params);  // 이제 안전함
-
     const currentUser = await getCurrentUser();
-
-    console.log('@@@',products)
 
     return (
       <Container>
