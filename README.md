@@ -55,6 +55,9 @@ npm i @lucasmogari/react-pagination
 
 #query-string
 npm i query-string
+
+#swr
+npm i swr
 ```
 
 ---

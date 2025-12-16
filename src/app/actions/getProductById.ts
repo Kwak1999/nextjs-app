@@ -68,7 +68,7 @@ export default async function getProductById(params: Params) {
             },
             include: {
                 // 상품과 연관된 User(작성자) 정보도 함께 조회
-                User: true,
+                user: true,
             },
         });
 
