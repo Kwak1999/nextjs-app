@@ -4,6 +4,7 @@ import {User} from "@prisma/client";
 import axios, {AxiosResponse} from "axios";
 import useSWR from "swr";
 import {TUserWithChat} from "@/types";
+import Contacts from "@/app/components/chat/Contacts";
 
 interface ChatClientProps {
     currentUser?: User | null;
@@ -40,9 +41,14 @@ const ChatClient = ({currentUser}: ChatClientProps) => {
 
     return (
         <main>
-            <div className='grid grid-cols-[ifr] md:grid-cols-[300px_1fr]'>
+            <div className='grid grid-cols-[1fr] md:grid-cols-[300px_1fr]'>
                 <section className={`md:flex ${layout && 'hidden'}`}>
-                    Contact
+                    <Contacts
+                        users={users}
+                        currentUser={currentUserWithMessage}
+                        setLayout={setLayout}
+                        setReceiver={setReceiver}
+                    />
                 </section>
                 <section className={`md:flex ${!layout && 'hidden'}`}>
                     Chat
