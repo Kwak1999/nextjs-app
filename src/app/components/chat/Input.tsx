@@ -4,8 +4,10 @@ import { IoImageOutline } from 'react-icons/io5';
 import { RiSendPlaneLine } from 'react-icons/ri';
 import useSWRMutation from 'swr/mutation';
 import { CgClose } from 'react-icons/cg';
-// import previewImage from '@/helpers/previewImage';
-// import uploadImage from '@/helpers/uploadImage';
+import previewImage from '@/helpers/previewImage';
+import uploadImage from '@/helpers/uploadImage';
+import { useSWRConfig } from 'swr';
+
 
 interface InputProps {
     receiverId: string;
@@ -37,6 +39,8 @@ const Input = ({
     const imageRef = useRef<HTMLInputElement>(null);
 
     const { trigger } = useSWRMutation('/api/chat', sendRequest)
+    const { mutate } = useSWRConfig();
+
 
     const chooseImage = () => {
         imageRef.current?.click();
@@ -45,27 +49,97 @@ const Input = ({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // const imageUrl = image ? await uploadImage(image as File) : null;
-        const imageUrl = '';
+        // ✅ 아무 것도 없으면 전송 안 함
+        if (!message && !image) return;
+
+        // ✅ optimistic 메시지(서버 응답 전 화면에 먼저 보일 데이터)
+        const tempId = `temp-${Date.now()}`;
+        const optimisticMessage = {
+            id: tempId,
+            text: message,
+            image: imagePreview ?? null, // 업로드 전이라도 미리보기는 먼저 보이게
+            receiverId,
+            senderId: currentUserId,
+            createdAt: new Date().toISOString(),
+        };
+
+        // ✅ 서버 전송 promise (이미지 업로드 포함)
+        const sendPromise = (async () => {
+            const imageUrl = image ? await uploadImage(image as File) : null;
+
+            return trigger({
+                text: message,
+                image: imageUrl,           // 서버에는 실제 URL
+                receiverId: receiverId,
+                senderId: currentUserId,
+            });
+        })();
+
+
+        const imageUrl = image ? await uploadImage(image as File) : null;
 
         if (message || imageUrl) {
             try {
-                trigger({
-                    text: message,
-                    image: imageUrl,
-                    receiverId: receiverId,
-                    senderId: currentUserId
-                })
-                // await axios.post('/api/chat', {
-                //   text: message,
-                //   image: imageUrl,
-                //   receiverId: receiverId,
-                //   senderId: currentUserId
-                // })
+                // ✅ 여기서 “/api/chat” 캐시를 먼저 업데이트(optimistic)
+                await mutate(
+                    '/api/chat',
+                    sendPromise,
+                    {
+                        optimisticData: (users: any) => {
+                            if (!users) return users;
+
+                            return users.map((u: any) => {
+                                if (u.id !== currentUserId) return u;
+
+                                const convIndex = u.conversations.findIndex((c: any) =>
+                                    c.users.some((uu: any) => uu.id === receiverId)
+                                );
+
+                                // 기존 대화방 있으면 messages 뒤에 추가
+                                if (convIndex >= 0) {
+                                    const conv = u.conversations[convIndex];
+                                    const nextConv = {
+                                        ...conv,
+                                        messages: [...conv.messages, optimisticMessage],
+                                    };
+
+                                    return {
+                                        ...u,
+                                        conversations: [
+                                            ...u.conversations.slice(0, convIndex),
+                                            nextConv,
+                                            ...u.conversations.slice(convIndex + 1),
+                                        ],
+                                    };
+                                }
+
+                                // 대화방이 없으면 새로 만들어 추가(최소 형태)
+                                const newConv = {
+                                    id: `temp-conv-${Date.now()}`,
+                                    users: [{ id: currentUserId }, { id: receiverId }],
+                                    messages: [optimisticMessage],
+                                };
+
+                                return {
+                                    ...u,
+                                    conversations: [...u.conversations, newConv],
+                                };
+                            });
+                        },
+
+                        rollbackOnError: true, // 서버 전송 실패 시 optimistic 자동 롤백
+                        populateCache: false,  // POST 응답으로 캐시를 덮어쓰지 않게
+                        revalidate: true,      // 성공하면 GET(/api/chat)로 다시 동기화
+                    }
+                );
             } catch (error) {
                 console.error(error);
+            } finally {
+                setMessage('');
+                setImage(null);
+                setImagePreview(null);
             }
-        }
+        };
 
         setMessage('');
         setImage(null);
@@ -102,14 +176,14 @@ const Input = ({
                 onChange={(e) => setMessage(e.target.value)}
             />
 
-            {/*<input*/}
-            {/*    type="file"*/}
-            {/*    className='hidden'*/}
-            {/*    ref={imageRef}*/}
-            {/*    onChange={(e) => previewImage(e, setImagePreview, setImage)}*/}
-            {/*    accept='image/*'*/}
-            {/*    multiple={false}*/}
-            {/*/>*/}
+            <input
+                type="file"
+                className='hidden'
+                ref={imageRef}
+                onChange={(e) => previewImage(e, setImagePreview, setImage)}
+                accept='image/*'
+                multiple={false}
+            />
 
 
             <div onClick={chooseImage} className='text-2xl text-gray-200 cursor-pointer'>
