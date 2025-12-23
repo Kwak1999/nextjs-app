@@ -23,7 +23,7 @@ const LoginPage = () => {
         setIsLoading(true);
         try{
             const data = signIn('credentials', body)
-            console.log(data)
+            // console.log(data)
             router.push('/auth/login')
         } catch (error){
             console.log(error)

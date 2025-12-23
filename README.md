@@ -29,6 +29,7 @@ npm install next-auth @prisma/client @next-auth/prisma-adapter
 # React Hook Form
 npm install react-hook-form
 
+
 # React Icons
 npm i react-icons
 

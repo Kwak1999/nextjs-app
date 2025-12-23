@@ -11,8 +11,6 @@ const previewImage = (e: any, setImagePreview: any, setImage: any) => {
         setImagePreview(reader.result);
     }
 
-
-
 }
 
 export default previewImage;

@@ -43,7 +43,27 @@ export const authOptions: NextAuthOptions = {
                 if(!isCorrectPassword){
                     throw new Error('Invalid credentials');
                 }
-                return user;
+
+                // ❌ 기존 코드 문제 2) Prisma user 객체를 통째로 return
+                // - user에는 hashedPassword 같은 민감 정보가 포함됨
+                // - 아래 jwt 콜백에서 {...token, ...user}로 합쳐버리면
+                //   hashedPassword가 JWT/세션에 그대로 들어갈 수 있음(보안 위험)
+                //
+                // ✅ 개선: return user 대신 "필요한 필드만" 반환
+                // return {
+                //   id: user.id,
+                //   email: user.email,
+                //   name: user.name,
+                //   image: user.image,
+                //   role: user.userType, // (또는 userType 그대로)
+                // };
+                return {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    image: user.image,
+                    role: user.userType, // ✅ Admin / User
+                };
             },
         }),
     ],
@@ -62,16 +82,49 @@ export const authOptions: NextAuthOptions = {
     // session에 jwt 데이터 넣는 과정
     callbacks: {
         async jwt({token, user}){
-            return {...token, ...user};
+            // ❌ 기존 코드 문제 4) {...token, ...user} 로 전부 합치기
+            // - user 객체(민감 필드 포함)가 JWT에 들어갈 수 있음
+            // - token 크기가 커지고 예측 불가능해짐
+            // - "role" 같은 필드가 없으면 미들웨어에서 계속 undefined가 나옴
+            //
+            // ✅ 개선: 로그인 시점에만 필요한 값만 token에 명시적으로 넣기
+            // if (user) {
+            //   token.id = (user as any).id;
+            //   token.role = (user as any).role;       // role 유지하려면
+            //   // 또는 token.userType = (user as any).userType;
+            // }
+            // return token;
+
+            if (user) {
+                token.id = (user as any).id;
+                token.role = (user as any).role; // ✅ role 저장
+            }
+            return token;
         },
 
-        async session({session, token})  {
-            session.user = token
+        async session({ session, token }) {
+            // ❌ 기존 코드 문제 5) session.user = token 으로 통째로 넣기
+            // - token에 들어간 모든 필드가 session.user로 노출됨
+            // - 클라이언트에서도 이 값들을 접근 가능 → 민감 데이터 노출 위험
+            //
+            // ✅ 개선: session에는 필요한 정보만 최소로 넣기
+            // (session.user as any).id = token.id;
+            // (session as any).role = (token as any).role; // 미들웨어가 session.role을 본다면 최상위에 넣기
+            // return session;
+
+            session.user = {
+                id: token.id as string,
+                email: session.user?.email,
+                name: session.user?.name,
+                image: session.user?.image,
+            } as any;
+
+            // ✅ 미들웨어에서 바로 쓰도록 최상위에 role
+            (session as any).role = (token as any).role;
+
             return session;
-        }
+        },
     }
-    // // ✅ 보안용 시크릿키
-    // secret: process.env.NEXTAUTH_SECRET,
-};
+    }
 
 export default NextAuth(authOptions)
