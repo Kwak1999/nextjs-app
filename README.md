@@ -1,5 +1,6 @@
-# 🛒 중고마켓 만들기
-
+# 🛒 중고마켓
+중고 거래 게시글을 등록하고, 위치 기반으로 탐색할 수 있는 웹 서비스
+이미지 업로드, 지도 기반 위치 선택, 페이지네이션, 채팅 기능을 구현
 ---
 ## 개발일지 
 [<img src= "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FBy8c6%2Fbtr0zSOlVmw%2FAAAAAAAAAAAAAAAAAAAAAGFLCgwjIV-txol-TNqX3HTUn0ytBga9XYY7ZeTf_EYU%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1764514799%26allow_ip%3D%26allow_referer%3D%26signature%3D8MviYcJnfTSmA%252FzUwYV%252FwzDPpKs%253D" width="400" height="200">](https://www.notion.so/298826d7994580f199dccd7f5f3dbf03?source=copy_link)
