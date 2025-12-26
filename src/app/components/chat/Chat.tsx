@@ -32,7 +32,7 @@ const Chat = ({
     })
 
     const conversation =
-        currentUser?.conversation.find((conversation) =>
+        currentUser?.conversations.find((conversation) =>
             conversation.users.find((user) => user.id === receiver.receiverId))
 
 
