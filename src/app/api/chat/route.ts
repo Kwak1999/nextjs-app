@@ -80,7 +80,7 @@ export async function POST(
 
             return NextResponse.json(message)
         } catch(error){
-            return NextResponse.error(error);
+            return NextResponse.error();
         }
 
     }else{
@@ -115,7 +115,7 @@ export async function POST(
 
             return NextResponse.json(message)
         } catch(error){
-            return NextResponse.error(error);
+            return NextResponse.error();
         }
 
     }
