@@ -20,12 +20,12 @@ const NavItem = ({mobile, currentUser}: NavItemProps) => {
            <li className='py-2 text-center border-b-4 cursor-pointer'><Link href="/chat">Chat</Link></li>
             {currentUser
                 ?
-                <li className='py-2 text-center border-b-4 cursor-pointer'>
-                    <button onClick={() => signOut()}>Signout</button>
+                <li className='py-2 text-center border-b-4'>
+                    <button onClick={() => signOut()} className='cursor-pointer' >Signout</button>
                 </li>
                 :
-                <li className='py-2 text-center border-b-4 cursor-pointer'>
-                    <button onClick={() => signIn()}>Signin</button>
+                <li className='py-2 text-center border-b-4'>
+                    <button onClick={() => signIn()} className='cursor-pointer' >Signin</button>
                 </li>
             }
         </ul>

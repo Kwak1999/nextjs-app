@@ -13,7 +13,7 @@ const ProductPage = async ({params}: {params: Params}) => {
     const product = await getProductById(params);
     const currentUser = await getCurrentUser();
 
-    console.log('product', product);
+    // console.log('product', product);
 
     if(!product) {
         return (

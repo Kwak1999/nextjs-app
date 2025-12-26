@@ -18,7 +18,7 @@ const ImageUpload = ({
 
     // 🔹 업로드 완료 시 호출되는 콜백 함수
     const handleUpload = (result: any) => {
-        console.log('result', result);                   // 업로드 결과 로그 출력
+        // console.log('result', result);                   // 업로드 결과 로그 출력
         onChange(result.info.secure_url);                // Cloudinary 업로드된 이미지 URL 전달
     }
 

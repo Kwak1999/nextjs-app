@@ -38,7 +38,7 @@ const ChatClient = ({currentUser}: ChatClientProps) => {
     //     axios.get(`/api/chat`)
     //         .then((res) => console.log(res));
     // }, [])
-    console.log(users)
+    // console.log(users)
 
     return (
         <main>
