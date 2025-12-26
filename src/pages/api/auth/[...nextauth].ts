@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    adapter: PrismaAdapter(prisma as any),
     providers: [
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -18,8 +18,8 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                username: { label: "Username", type: "text"},
-                password: { label: "Password", type: "password"}
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
                 if(!credentials?.email || !credentials?.password){

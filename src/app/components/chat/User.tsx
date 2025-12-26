@@ -11,9 +11,15 @@ interface UserProps {
 
 const User = ({ user, currentUserId }: UserProps) => {
 
-    const messagesWithCurrentUser = user.conversations.find(
-        (conversation: TConversation) =>
-            conversation.users.find((user) => user.id === currentUserId)
+    // ✅ conversations / conversation 둘 다 지원
+    const conversationList =
+        (user as any)?.conversations ??
+        (user as any)?.conversation ??
+        [];
+
+    const messagesWithCurrentUser = conversationList.find(
+        (conversation: any) =>
+            conversation.users?.some((u: any) => u.id === currentUserId)
     );
 
     const latestMessage = messagesWithCurrentUser?.messages.slice(-1)[0];
