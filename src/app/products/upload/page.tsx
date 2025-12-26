@@ -8,11 +8,12 @@ import Heading from "@/app/components/Heading";
 import ImageUpload from "@/app/components/ImageUpload";
 import { categories } from '@/app/components/categories/Categories';
 import CategoryInput from '@/app/components/categories/CategoryInput';
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import axios from "axios";
 import {useRouter} from "next/navigation"; // ✅ 사용자 정의 레이아웃용 컨테이너 컴포넌트
 
 
+export const dynamic = "force-dynamic";
 
 const ProductUploadPage = () => {
 
