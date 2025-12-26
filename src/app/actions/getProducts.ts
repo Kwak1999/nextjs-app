@@ -14,7 +14,7 @@ export default async function getProducts(params: ProductsParams) {
     try{
         const { latitude, longitude, category, skip } = params;
 
-        let query: any = {};
+        const query: any = {};
 
         if (category) {
             query.category = category;
