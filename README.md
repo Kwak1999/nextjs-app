@@ -1,11 +1,70 @@
 # 🛒 중고마켓
-중고 거래 게시글을 등록하고, 위치 기반으로 탐색할 수 있는 웹 서비스
-이미지 업로드, 지도 기반 위치 선택, 페이지네이션, 채팅 기능을 구현
----
-## 개발일지 
-[<img src= "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FBy8c6%2Fbtr0zSOlVmw%2FAAAAAAAAAAAAAAAAAAAAAGFLCgwjIV-txol-TNqX3HTUn0ytBga9XYY7ZeTf_EYU%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1764514799%26allow_ip%3D%26allow_referer%3D%26signature%3D8MviYcJnfTSmA%252FzUwYV%252FwzDPpKs%253D" width="400" height="200">](https://www.notion.so/298826d7994580f199dccd7f5f3dbf03?source=copy_link)
+중고 거래 플랫폼 웹 서비스 개발
+
+2025.11.13 – 2025.12.23 (약 5주)
+
+Next.js(App Router) 기반 중고거래 웹 플랫폼을 기획·개발하며
+인증/인가, 상품 등록, 위치 기반 필터링, 좋아요 기능까지 구현한 개인 프로젝트입니다.
 
 ---
+
+## 🔹 프로젝트 개요
+
+- 목적: 실제 서비스 수준의 인증/인가 흐름과 CRUD 경험 확보
+
+- 타겟: 로그인 기반 중고 거래 서비스
+
+- 형태: 개인 프로젝트 (기획 ~ 구현 전 과정 담당)
+---
+
+## 🔹 담당 역할
+
+- 프론트엔드 및 서버 로직 100% 단독 구현
+
+- DB 설계, 인증 구조, API 설계 직접 진행
+---
+
+## 🔹 주요 기능
+
+- NextAuth 기반 인증/인가
+
+- Google OAuth + Credentials 로그인
+
+- JWT 기반 세션 관리
+
+- Admin / User 권한 분리 및 접근 제어
+
+- 상품 등록 및 조회
+
+- Cloudinary 이미지 업로드
+
+- 카테고리 선택 컴포넌트 구현
+
+- Kakao Map API를 활용한 위치 기반 상품 등록
+
+- 사용자 인터랙션
+
+- 좋아요(Favorite) 기능 (POST/DELETE)
+
+- 실시간 UI 반영 (router.refresh)
+
+- Toast 알림 UX 적용
+---
+
+## 🔹 기술 스택
+
+- Frontend: Next.js 15(App Router), React, TypeScript, Tailwind CSS
+
+- Backend: Next.js Route Handler
+
+- Auth: NextAuth (JWT Strategy)
+
+- DB: PostgreSQL, Prisma ORM
+
+- Infra: Docker, Cloudinary
+
+- Etc: Kakao Map API, react-hook-form
+--- 
 
 ## 가이드
 
