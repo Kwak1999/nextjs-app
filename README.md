@@ -52,18 +52,26 @@ Next.js(App Router) 기반 중고거래 웹 플랫폼을 기획·개발하며
 ---
 
 ## 🔹 기술 스택
+| 구분                 | 기술                      | 사용 목적 / 이유                                      |
+| ------------------ | ----------------------- | ----------------------------------------------- |
+| **Frontend**       | Next.js 15 (App Router) | 서버 컴포넌트 기반 데이터 패칭과 서버/클라이언트 책임 분리를 위해 사용        |
+|                    | React 19                | 컴포넌트 기반 UI 구성 및 사용자 인터랙션 처리                     |
+|                    | TypeScript              | 서버 응답 및 컴포넌트 props에 타입을 적용해 안정성과 가독성 확보         |
+|                    | Tailwind CSS            | 빠른 UI 개발과 공통 스타일 관리를 위해 사용                      |
+| **Backend**        | Next.js Route Handler   | 상품 등록, 좋아요, 채팅 메시지 전송 등 사용자 이벤트 처리              |
+|                    | Prisma ORM              | PostgreSQL과의 타입 안전한 쿼리 및 관계형 데이터 모델링            |
+|                    | PostgreSQL              | 사용자, 상품, 채팅 데이터 저장                              |
+| **Authentication** | NextAuth.js             | Google OAuth 및 Credentials 로그인 구현, JWT 기반 세션 관리 |
+|                    | Middleware              | 인증 여부에 따른 페이지 접근 제어(인가)                         |
+| **State / Data**   | SWR                     | 채팅 기능에서 실시간에 가까운 데이터 동기화 및 optimistic UI 적용     |
+|                    | React Hook Form         | 상품 등록 폼 상태 관리 및 유효성 검사                          |
+| **External API**   | Cloudinary              | 상품 이미지 업로드 및 URL 기반 이미지 관리                      |
+|                    | Kakao Map API           | 상품 등록 시 위치 선택 및 상세 페이지 지도 표시                    |
+| **Infra / Tools**  | Docker                  | PostgreSQL 로컬 개발 환경 구성                          |
+|                    | Axios                   | 클라이언트 ↔ 서버 API 통신                               |
+|                    | Day.js                  | 날짜/시간 포맷 처리                                     |
+|                    | Git / GitHub            | 코드 버전 관리 및 프로젝트 관리                              |
 
-- Frontend: Next.js 15(App Router), React, TypeScript, Tailwind CSS
-
-- Backend: Next.js Route Handler
-
-- Auth: NextAuth (JWT Strategy)
-
-- DB: PostgreSQL, Prisma ORM
-
-- Infra: Docker, Cloudinary
-
-- Etc: Kakao Map API, react-hook-form
 --- 
 
 ## 가이드
