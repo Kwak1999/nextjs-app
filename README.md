@@ -3,8 +3,10 @@
 
 2025.11.13 – 2025.12.23 (약 5주)
 
-Next.js(App Router) 기반 중고거래 웹 플랫폼을 기획·개발하며
-인증/인가, 상품 등록, 위치 기반 필터링, 좋아요 기능까지 구현한 개인 프로젝트입니다.
+프로젝트 목적/범위: Next.js 15(App Router)로 중고거래 웹서비스를 구축하며 인증, 
+상품 등록·조회, 위치 기반 필터, 좋아요 등 실제 서비스 흐름을 연습하는 개인 프로젝트입니다.
+
+주요 스택: Next.js(서버 컴포넌트), React 19, TypeScript, Tailwind CSS, Prisma + PostgreSQL, NextAuth(JWT 기반), SWR, React Hook Form, Cloudinary, Kakao Map API 등을 사용합니다.
 
 ---
 
