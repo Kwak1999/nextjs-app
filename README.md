@@ -7,11 +7,15 @@
 
 ---
 
-## 🔹 담당 역할
+## 🔹 배운점
 
-- 프론트엔드 및 서버 로직 100% 단독 구현
+- 전체 스택 체험: Next.js 15 App Router·React 19·TypeScript·Tailwind를 중심으로, Prisma+PostgreSQL 백엔드, NextAuth 기반 인증, SWR/React Hook Form 등 실무형 풀스택 구성을 한 번에 경험할 수 있습니다.
 
-- DB 설계, 인증 구조, API 설계 직접 진행
+- 주요 기능 흐름: OAuth/자격 증명 로그인, JWT 세션, 역할 분리(Admin/User), 상품 등록·조회, Cloudinary 업로드, 카테고리/위치 입력(Kakao Map), 좋아요/실시간 UI, 토스트 UX까지 전형적인 커머스 플로우를 학습할 수 있습니다.
+
+- 환경 세팅 및 도구 사용: Next.js 빌드/실행, Prisma 초기화·db push, 인증/폼/지도/업로드용 라이브러리 설치 등 로컬 개발 환경 구성 과정을 명령어 단위로 익힐 수 있습니다.
+
+- 버전 호환성 트러블슈팅: NextAuth와 Prisma 어댑터 버전 불일치로 인한 JSON 파싱 오류 사례가 기록돼 있어, 의존성 충돌을 진단·해결하는 방법을 학습할 수 있습니다.
 ---
 
 ## 🔹 주요 기능
