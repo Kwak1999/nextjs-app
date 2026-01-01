@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
+
 // ✅ 현재 세션 정보 가져오기 (NextAuth 서버 세션)
 export async function getSession() {
     return await getServerSession(authOptions);
