@@ -36,7 +36,7 @@ const Chat = ({ currentUser, receiver, setLayout }: ChatProps) => {
         conversation.users?.some((user: any) => user.id === receiver.receiverId)
     );
 
-    // ✅ messages / message 둘 다 지원 + 타입 지정 (핵심)
+    // ✅ messages / message 둘 다 지원 + 타입 지정 (핵심) -> 강의코드 그대로하면 배포가 안됌.
     const messages: PrismaMessage[] =
         ((conversation as any)?.messages ??
             (conversation as any)?.message ??
