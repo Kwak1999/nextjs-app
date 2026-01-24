@@ -114,23 +114,7 @@
 
 ## **새롭게 알게 된 점**
 
-### 1. Next.js 15 App Router의 서버/클라이언트 컴포넌트 구분
-
-**서버 컴포넌트 (기본값)**
-- DB 직접 접근 가능 (`prisma.product.findMany()`)
-- 환경 변수 서버 측에서 안전하게 사용
-- 번들 크기 감소 (클라이언트에 전송 안 됨)
-
-**클라이언트 컴포넌트 (`'use client'`)**
-- `useState`, `useEffect`, 이벤트 핸들러 사용
-- 브라우저 API 접근 가능
-- SWR, React Hook Form 같은 라이브러리 사용
-
-**핵심 교훈**
-- 서버 컴포넌트를 최대한 활용하여 클라이언트 번들 크기 최소화
-- 상호작용이 필요한 부분만 클라이언트 컴포넌트로 분리
-
-### 2. NextAuth의 JWT vs Database 세션 전략
+### 1. NextAuth의 JWT vs Database 세션 전략
 
 | 구분 | JWT 세션 | Database 세션 |
 |------|----------|---------------|
@@ -143,7 +127,7 @@
 - JWT 세션을 선택하여 Middleware에서 빠른 검증
 - 역할 정보를 JWT에 포함하여 DB 조회 최소화
 
-### 3. Prisma의 관계형 쿼리 최적화
+### 2. Prisma의 관계형 쿼리 최적화
 
 **N+1 쿼리 문제 해결**
 ```typescript
@@ -163,7 +147,7 @@ const products = await prisma.product.findMany({
 - `include`, `select`로 필요한 데이터만 효율적으로 조회
 - 복잡한 관계도 TypeScript 타입 추론으로 안전하게 접근
 
-### 4. SWR을 활용한 실시간 데이터 동기화
+### 3. SWR을 활용한 실시간 데이터 동기화
 
 ```typescript
 const { data: users } = useSWR(
@@ -176,25 +160,6 @@ const { data: users } = useSWR(
 **핵심 교훈**
 - WebSocket 없이도 폴링 방식으로 간단한 실시간 기능 구현 가능
 - `dedupingInterval`, `revalidateOnFocus` 옵션으로 성능 튜닝 가능
-
-### 5. Docker Compose로 로컬 DB 환경 구성
-
-```yaml
-services:
-  db:
-    image: postgres:latest
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "password"
-    volumes:
-      - db_data:/var/lib/postgresql/data
-```
-
-**핵심 교훈**
-- 팀원 간 동일한 DB 환경 보장 (버전, 설정 통일)
-- `volumes`로 컨테이너 재시작 시에도 데이터 유지
 
 ---
 
