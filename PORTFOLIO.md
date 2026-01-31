@@ -84,45 +84,106 @@
 
 ---
 
-## API 설계서 (초안)
+## API 명세서
+
+> **Base URL**: `/api`  
+> **Auth**: 세션 기반 (NextAuth JWT). 보호된 API는 로그인 필요.
 
 ### 인증
 - `POST /api/register`
   - **설명**: 회원가입
-  - **Body**: `{ name, email, password }`
-  - **Response**: `{ id, name, email }`
+  - **Auth**: 없음
+  - **Body**
+    - `name` *(string, required)*
+    - `email` *(string, required)*
+    - `password` *(string, required)*
+  - **Response 200**
+    ```json
+    { "id": "string", "name": "string", "email": "string" }
+    ```
+  - **Error**: 400(유효성 실패), 409(중복 이메일)
 - `POST /api/auth/[...nextauth]`
-  - **설명**: NextAuth 로그인 처리
-  - **Response**: 세션/토큰 쿠키
+  - **설명**: NextAuth 로그인 처리 (OAuth/credentials)
+  - **Auth**: 없음
+  - **Body**: NextAuth 스펙에 따름
+  - **Response 200**: 세션/토큰 쿠키 설정
 
 ### 상품
 - `GET /api/products`
   - **설명**: 상품 목록 조회
-  - **Query**: `category`, `search`, `page`
-  - **Response**: `Product[]`
+  - **Auth**: 없음
+  - **Query**
+    - `category` *(string, optional)*
+    - `search` *(string, optional)*
+    - `page` *(number, optional)*
+  - **Response 200**
+    ```json
+    { "data": ["Product"], "totalItems": 0 }
+    ```
 - `POST /api/products`
   - **설명**: 상품 등록
-  - **Body**: `{ title, description, price, category, imageSrc, latitude, longitude }`
-  - **Response**: `Product`
+  - **Auth**: 로그인 필요
+  - **Body**
+    - `title` *(string, required)*
+    - `description` *(string, required)*
+    - `price` *(number, required)*
+    - `category` *(string, required)*
+    - `imageSrc` *(string, required)*
+    - `latitude` *(number, required)*
+    - `longitude` *(number, required)*
+  - **Response 200**
+    ```json
+    { "id": "string", "title": "string", "price": 0, "imageSrc": "string" }
+    ```
+  - **Error**: 401(비로그인), 400(유효성 실패)
 - `GET /api/products/[productId]`
   - **설명**: 상품 상세 조회
-  - **Response**: `Product`
+  - **Auth**: 없음
+  - **Response 200**
+    ```json
+    { "id": "string", "title": "string", "description": "string", "price": 0 }
+    ```
+  - **Error**: 404(미존재)
 
 ### 좋아요
 - `POST /api/favorites/[productId]`
   - **설명**: 좋아요 추가
-  - **Response**: `{ favoriteIds }`
+  - **Auth**: 로그인 필요
+  - **Response 200**
+    ```json
+    { "favoriteIds": ["string"] }
+    ```
+  - **Error**: 401(비로그인)
 - `DELETE /api/favorites/[productId]`
   - **설명**: 좋아요 제거
-  - **Response**: `{ favoriteIds }`
+  - **Auth**: 로그인 필요
+  - **Response 200**
+    ```json
+    { "favoriteIds": ["string"] }
+    ```
+  - **Error**: 401(비로그인)
 
 ### 채팅
 - `GET /api/chat`
-  - **설명**: 대화 목록 조회
-  - **Response**: `Conversation[]`
+  - **설명**: 대화 목록 조회 (유저+대화+메시지 포함)
+  - **Auth**: 로그인 필요
+  - **Response 200**
+    ```json
+    ["ConversationWithMessages"]
+    ```
+  - **Error**: 401(비로그인)
 - `POST /api/chat`
-  - **설명**: 메시지 전송 (대화 생성 포함)
-  - **Body**: `{ receiverId, text?, image? }`
-  - **Response**: `Message`
+  - **설명**: 메시지 전송 (기존 대화 없으면 생성)
+  - **Auth**: 로그인 필요
+  - **Body**
+    - `receiverId` *(string, required)*
+    - `senderId` *(string, required)*
+    - `text` *(string, optional)*
+    - `image` *(string, optional)*
+  - **Response 200**
+    ```json
+    { "id": "string", "text": "string", "image": "string", "createdAt": "string" }
+    ```
+  - **Error**: 401(비로그인), 400(유효성 실패)
 
 ---
