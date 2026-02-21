@@ -5,79 +5,54 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import HeartButton from '@/app/components/HeartButton';
 import { fromNow } from '@/helpers/dayjs';
+import { formatPrice } from '@/helpers/formatPrice';
 
 interface ProductCardProps {
-    data: Product;           // 상품 데이터 (DB에서 가져온 product row)
-    currentUser?: User | null; // 로그인한 유저 정보 (좋아요 여부 판단에 사용)
+    data: Product;
+    currentUser?: User | null;
 }
 
 const ProductCard = ({ data, currentUser }: ProductCardProps) => {
-
-    const router = useRouter(); // 상품 클릭 시 상세 페이지 이동용 훅
+    const router = useRouter();
 
     return (
         <div
-            // 카드 전체 클릭 시 해당 상품 상세 페이지로 이동
             onClick={() => router.push(`/products/${data.id}`)}
-            className='col-span-1 cursor-pointer group'
+            className="col-span-1 cursor-pointer group"
         >
-            <div className='flex flex-col w-full gap-2'>
-                {/*
-                    상품 이미지 영역
-                    - 부모 div에 'relative'를 줘야 내부의 absolute 요소(좋아요 버튼) 배치 가능
-                */}
-                <div className='relative w-full overflow-hidden aspect-square rounded-xl'>
-                    {/*
-                        Next.js Image 컴포넌트
-                        fill → 부모 요소를 꽉 채움
-                        group-hover:scale-110 → 부모 요소 hover 시 이미지 확대 효과
-                    */}
+            <div className="flex flex-col w-full gap-3 p-3 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="relative w-full overflow-hidden aspect-square rounded-xl">
                     <Image
                         src={data.imageSrc}
                         fill
-                        sizes='auto'
-                        className='object-cover w-full h-full transition group-hover:scale-110'
-                        alt="product"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                        alt={data.title}
                     />
-
-                    {/*
-                        ❤️ 좋아요 버튼 배치 영역
-                        absolute top-3 right-3 → 이미지 상단 우측에 고정
-                    */}
-                    <div className='absolute top-3 right-3'>
-                        <HeartButton
-                            productId={data.id}
-                            currentUser={currentUser}
-                        />
+                    <div className="absolute top-3 right-3">
+                        <HeartButton productId={data.id} currentUser={currentUser} />
                     </div>
                 </div>
 
-                {/* 상품 제목 */}
-                <div className='text-lg font-semibold'>
-                    {data.title}
-                </div>
-
-                {/* 카테고리 */}
-                <div className='font-light text-neutral-500'>
-                    {data.category}
-                </div>
-
-                {/* 가격 + 등록일 */}
-                <div className='flex flex-row items-center justify-between gap-1'>
-                    {/* 가격 */}
-                    <div>
-                        {data.price}{" "}
-                        <span className='font-light'>원</span>
-                    </div>
-
-                    {/* 등록일 (fromNow: "3일 전", "2시간 전" 같은 포맷) */}
-                    <div>
-                        {fromNow(data.createdAt)}
+                <div className="flex flex-col gap-1">
+                    <h3 className="text-base font-semibold text-slate-800 line-clamp-2">
+                        {data.title}
+                    </h3>
+                    <p className="text-sm text-slate-500">
+                        {data.category}
+                    </p>
+                    <div className="flex items-center justify-between pt-1">
+                        <span className="text-lg font-bold text-teal-600">
+                            ₩{formatPrice(data.price)}
+                        </span>
+                        <span className="text-xs text-slate-400">
+                            {fromNow(data.createdAt)}
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ProductCard;

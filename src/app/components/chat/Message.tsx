@@ -1,86 +1,75 @@
 import React from 'react';
-import Avatar from "@/app/components/Avatar";
-import { fromNow } from "@/helpers/dayjs";
 import Image from 'next/image';
+import { formatTime } from "@/helpers/dayjs";
 
 interface MessageProps {
     isSender: boolean;
-    messageText?: string | null,
-    messageImage?: string | null,
-    receiverName: string,
-    receiverImage: string,
-    senderImage: string | null,
+    messageText?: string | null;
+    messageImage?: string | null;
+    receiverName: string;
+    receiverImage: string;
+    senderImage: string | null;
     time: Date;
 }
 
 const Message = ({
-                     isSender,
-                     messageText,
-                     messageImage,
-                     receiverName,
-                     receiverImage,
-                     senderImage,
-                     time
-                 }: MessageProps) => {
+    isSender,
+    messageText,
+    messageImage,
+    receiverName,
+    receiverImage,
+    senderImage,
+    time
+}: MessageProps) => {
     return (
-        // ❌ 기존: grid + direction: rtl/ltr
-        // ❌ direction 때문에 '안녕!' → '!안녕' 버그 발생
-        // ✅ 수정: flex + flex-row-reverse 로 "배치만" 좌우 반전
         <div
-            className={`w-full flex gap-3 ${
+            className={`w-full flex gap-2 ${
                 isSender ? "flex-row-reverse" : "flex-row"
-            } items-start`}
-            // style={{ direction: isSender ? 'rtl' : 'ltr' }} <- 제거
-
+            } items-end`}
         >
-            {/* ❌ 기존 grid의 첫 번째 칸 */}
-            {/* ✅ 수정: flex 구조에서 Avatar를 바로 배치 */}
-            <Avatar
-                src={isSender ? senderImage ?? receiverImage : receiverImage}
-            />
+            {/* 아바타 - 상대 메시지에만 표시 (내 메시지는 생략) */}
+            {!isSender && (
+                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0">
+                    <Image
+                        src={receiverImage || "https://travel.rakuten.com/contents/sites/contents/files/styles/max_1300x1300/public/2024-07/photogenic-spots-japan_18_0.jpg?itok=m-FshNPR"}
+                        width={32}
+                        height={32}
+                        alt=""
+                        className="w-full h-full object-cover"
+                    />
+                </div>
+            )}
+            {isSender && <div className="w-8 shrink-0" />}
 
-            {/* ❌ 기존: items-start 고정 */}
-            {/* ✅ 수정: 보낸 사람일 때 items-end */}
-            <div
-                className={`flex flex-col justify-center ${
-                    isSender ? "items-end" : "items-start"
-                }`}
-            >
-                {/* 헤더(You / 이름 / 시간) */}
-                <div className="flex items-center gap-2 mb-2 text-sm">
-          <span className="font-medium">
-            {isSender ? "You" : receiverName}
-          </span>
-                    <span className="text-xs text-gray-500 opacity-80">
-            {fromNow(time)}
-          </span>
+            <div className={`flex flex-col max-w-[75%] ${isSender ? "items-end" : "items-start"}`}>
+                <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-medium text-slate-500">
+                        {isSender ? "나" : receiverName}
+                    </span>
+                    <span className="text-[10px] text-slate-400">{formatTime(time, 'h:mm A')}</span>
                 </div>
 
-                {/* 이미지 메시지 */}
                 {messageImage && (
-                    <div className="overflow-hidden rounded-md max-w-[80%]">
+                    <div className="overflow-hidden rounded-2xl mb-1">
                         <Image
                             src={messageImage}
-                            width={300}
-                            height={300}
+                            width={240}
+                            height={240}
                             alt=""
+                            className="object-cover max-w-[200px] max-h-[200px]"
                         />
                     </div>
                 )}
 
-                {/* 텍스트 메시지 */}
                 {messageText && (
                     <div
-                        className={`p-2 break-all text-white rounded-lg
-            ${
+                        className={`px-4 py-2.5 break-words rounded-2xl ${
                             isSender
-                                ? "bg-orange-500 rounded-tr-none"
-                                : "bg-gray-400 rounded-tl-none"
+                                ? "bg-teal-500 text-white rounded-tr-md"
+                                : "bg-white text-slate-800 rounded-tl-md shadow-sm border border-slate-100"
                         }`}
                     >
-                        {/* ❌ 기존: <p>{messageText}</p> */}
-                        {/* ✅ 수정: dir="auto" → 특수문자(!, ?, emoji) 순서 깨짐 방지 */}
-                        <p dir="auto">{messageText}</p>
+                        <p dir="auto" className="text-sm leading-relaxed">{messageText}</p>
                     </div>
                 )}
             </div>

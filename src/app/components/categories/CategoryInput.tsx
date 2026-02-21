@@ -1,45 +1,27 @@
 import React from 'react';
 import { IconType } from 'react-icons';
 
-// ✅ 카테고리 선택 박스에 전달할 props 타입 정의
 interface CategoryInputProps {
-    icon: IconType;                // 아이콘 컴포넌트
-    label: string;                 // 카테고리 이름
-    path: string;                  // 카테고리 고유값 (상위에서 구분용)
-    selected?: boolean;            // 선택 여부 (스타일 변경용)
-    onClick: (value: string) => void; // 클릭 시 실행할 함수 (카테고리 선택 이벤트)
+    icon: IconType;
+    label: string;
+    path: string;
+    selected?: boolean;
+    onClick: (value: string) => void;
 }
 
-// ✅ 클릭으로 선택 가능한 카테고리 입력 박스 컴포넌트
-const CategoryInput = ({
-                           icon: Icon,
-                           label,
-                           selected,
-                           onClick,
-                           path
-                       }: CategoryInputProps) => {
+const CategoryInput = ({ icon: Icon, label, selected, onClick, path }: CategoryInputProps) => {
     return (
-        // 🔹 클릭 시 onClick 함수 호출, path 값 전달
         <div
             onClick={() => onClick(path)}
             className={`
-                rounded-xl           // 모서리 둥글게
-                border-2             // 테두리 두께
-                p-4                  // 내부 여백
-                flex flex-col gap-3   // 세로 정렬 + 간격
-                hover:border-orange-500 // 호버 시 주황색 테두리
-                transition            // 부드러운 전환 효과
-                cursor-pointer        // 마우스 커서 포인터
-                ${selected ? 'border-orange-500' : 'border-neutral-200'} // 선택 시 색상 변경
+                rounded-xl p-4 flex flex-col gap-3
+                border-2 cursor-pointer transition-all duration-200
+                hover:shadow-md hover:border-teal-400
+                ${selected ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm' : 'border-slate-200 bg-white text-slate-700'}
             `}
         >
-            {/* 카테고리 아이콘 */}
-            <Icon size={30} />
-
-            {/* 카테고리 이름 */}
-            <div className='font-semibold'>
-                {label}
-            </div>
+            <Icon size={28} className={selected ? 'text-teal-600' : 'text-slate-500'} />
+            <div className="font-semibold text-sm">{label}</div>
         </div>
     );
 };

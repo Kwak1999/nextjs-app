@@ -15,57 +15,49 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
     id,
     label,
-    type= "text",
+    type = "text",
     disabled,
     formatPrice,
     register,
     required,
     errors
-               }) => {
+}) => {
+    const hasError = !!errors[id];
+    const labelLeft = formatPrice ? 'left-10' : 'left-4';
     return (
-        <div className='relative w-full'>
-            {formatPrice &&
-                <span className='absolute text-neutral-700 top-5 left-2'>₩</span>
-            }
+        <div className="relative w-full">
+            {formatPrice && (
+                <span className="absolute text-slate-500 top-1/2 -translate-y-1/2 left-4 text-lg font-medium z-10 pointer-events-none">₩</span>
+            )}
             <input
                 id={id}
                 disabled={disabled}
-                {...register(id, { required})}
-                placeholder=''
+                {...register(id, { required })}
+                placeholder=" "
                 type={type}
                 className={`
-                    w-full
-                    p-4
-                    pt-6
-                    font-light
-                    border-2
-                    bg-white
-                    rounded-md
-                    outline-none
-                    transition
-                    disabled:opacity-70
-                    disabled:cursor-not-allowed
-                   ${formatPrice? 'pl-9': 'pl-4'}
-                   ${errors[id] ? 'border-rose-500': 'border-neutral-300'}
-                   ${errors[id] ? 'focus:border-rose-500': 'focus:border-black'}
+                    peer w-full p-4 pt-7 text-base font-normal
+                    border-2 bg-white rounded-xl
+                    outline-none transition-all
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    placeholder:text-transparent
+                    ${formatPrice ? 'pl-10' : 'pl-4'}
+                    ${hasError 
+                        ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-100' 
+                        : 'border-slate-200 focus:border-teal-500 focus:ring-2 focus:ring-teal-100'}
                 `}
             />
             <label
+                htmlFor={id}
                 className={`
-                absolute
-                text-md
-                duration-150
-                transform
-                -translate-y-3
-                top-5
-                z-10
-                origin-[0]
-                ${formatPrice ? 'left-9': 'left-4'}
-                peer-placeholder-shown:scale-100
-                peer-placeholder-shown:translate-y-0
-                peer-focus:scale-75
-                peer-focus:-translate-y-4
-                ${errors[id] ? 'text-rose-500': 'text-zinc-400'}`}
+                    absolute z-10 font-medium pointer-events-none
+                    text-slate-500 transition-all duration-200
+                    top-1/2 -translate-y-1/2
+                    peer-focus:top-2 peer-focus:text-xs peer-focus:translate-y-0 peer-focus:text-teal-600
+                    peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:translate-y-0
+                    ${formatPrice ? 'left-10' : 'left-4'}
+                    ${hasError ? 'peer-focus:text-rose-500 peer-[:not(:placeholder-shown)]:text-rose-500' : ''}
+                `}
             >
                 {label}
             </label>

@@ -1,61 +1,60 @@
 'use client';
+
 import React from 'react';
 import { CldUploadWidget } from "next-cloudinary";
 import { TbPhotoPlus } from "react-icons/tb";
 import Image from 'next/image';
 
-// ✅ 이미지 업로드 컴포넌트에 전달할 props 타입 정의
 interface ImageUploadProps {
-    onChange: (value: string) => void;  // 업로드 후 이미지 URL을 부모 컴포넌트로 전달
-    value: string;                      // 현재 선택된 이미지 URL
+    onChange: (value: string) => void;
+    value: string;
 }
 
-// ✅ Cloudinary 업로드 위젯을 사용하는 이미지 업로드 컴포넌트
-const ImageUpload = ({
-                         onChange,
-                         value
-}: ImageUploadProps) => {
-
-    // 🔹 업로드 완료 시 호출되는 콜백 함수
+const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
     const handleUpload = (result: any) => {
-        // console.log('result', result);                   // 업로드 결과 로그 출력
-        onChange(result.info.secure_url);                // Cloudinary 업로드된 이미지 URL 전달
-    }
+        onChange(result.info.secure_url);
+    };
 
-    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
     return (
         <CldUploadWidget
-            onSuccess={handleUpload}                      // 업로드 완료 시 콜백 실행
-            uploadPreset={uploadPreset}                       // Cloudinary 업로드 설정 (Cloudinary preset 이름)
-            options={{
-                maxFiles: 1                              // 업로드 가능한 파일 수 제한
-            }}
+            onSuccess={handleUpload}
+            uploadPreset={uploadPreset}
+            options={{ maxFiles: 1 }}
         >
-            {({ open }) => {
-                return (
-                    // 🔹 업로드 위젯 열기 트리거
-                    <div
-                        onClick={() => open?.()}
-                        className='relative flex flex-col items-center justify-center gap-4 p-20 transition border-2 border-dashed cursor-pointer hover:opacity-70 border-neutral-300 text-neutral-300'
-                    >
-                        {/* 업로드 아이콘 */}
-                        <TbPhotoPlus size={50} />
-
-                        {/* 이미지가 있을 경우 미리보기 표시 */}
-                        {value && (
-                            <div className='absolute inset-0 w-full h-full'>
-                                <Image
-                                    fill
-                                    style={{ objectFit: 'cover' }}
-                                    src={value}
-                                    alt=""
-                                />
+            {({ open }) => (
+                <div
+                    onClick={() => open?.()}
+                    className="group relative flex flex-col items-center justify-center gap-4 min-h-[280px] rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 cursor-pointer transition-all hover:border-teal-400 hover:bg-teal-50/30 overflow-hidden"
+                >
+                    {value ? (
+                        <>
+                            <Image
+                                fill
+                                src={value}
+                                alt="상품 이미지"
+                                className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center">
+                                <span className="opacity-0 group-hover:opacity-100 transition-opacity px-4 py-2 rounded-lg bg-white text-sm font-medium text-slate-700 shadow-lg">
+                                    클릭하여 이미지 변경
+                                </span>
                             </div>
-                        )}
-                    </div>
-                )
-            }}
+                        </>
+                    ) : (
+                        <>
+                            <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center">
+                                <TbPhotoPlus size={32} className="text-slate-400" />
+                            </div>
+                            <div className="text-center">
+                                <p className="text-slate-600 font-medium">이미지를 업로드하세요</p>
+                                <p className="text-slate-400 text-sm mt-1">클릭하거나 파일을 드래그하세요</p>
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
         </CldUploadWidget>
     );
 };

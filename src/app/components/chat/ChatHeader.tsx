@@ -1,43 +1,29 @@
 import React from 'react';
-import {IoChevronBackCircleSharp} from "react-icons/io5";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import Avatar from "@/app/components/Avatar";
-import {formatTime} from "@/helpers/dayjs";
 
 interface ChatHeaderProps {
     setLayout: (layout: boolean) => void;
     receiverName: string;
     receiverImage: string;
-    lastMessageTime: Date | undefined;
+    lastMessageTime?: Date;
 }
 
-const ChatHeader = ({
-    setLayout,
-    receiverName,
-    receiverImage,
-    lastMessageTime
-                    }: ChatHeaderProps) => {
+const ChatHeader = ({ setLayout, receiverName, receiverImage }: ChatHeaderProps) => {
     return (
-        <div className='pl-4 border-b-[1px]'>
-            <div className='flex items-center h-16 gap-4 '>
-                <div className='flex items-center justify-center text-3xl text-gray-400 hover:text-gray-600'>
-                    <button onClick={() => setLayout(false)} className='md:hidden'>
-                        <IoChevronBackCircleSharp />
-                    </button>
+        <div className="flex items-center gap-4 h-16 px-4 bg-white border-b border-slate-200 shrink-0 shadow-sm">
+            <button
+                onClick={() => setLayout(false)}
+                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
+                aria-label="뒤로가기"
+            >
+                <HiOutlineArrowLeft size={24} />
+            </button>
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="shrink-0">
+                    <Avatar src={receiverImage} />
                 </div>
-
-                <div className='flex items-center gap-[0.6rem]'>
-                    <div>
-                        <Avatar src={receiverImage} />
-                    </div>
-                    <h2 className='text-lg font-semibold'>
-                        {receiverName}
-                        {lastMessageTime && (
-                            <p className='text-gray-600'>
-                                {formatTime(lastMessageTime)}
-                            </p>
-                        )}
-                    </h2>
-                </div>
+                <h2 className="font-semibold text-slate-800 truncate">{receiverName}</h2>
             </div>
         </div>
     );

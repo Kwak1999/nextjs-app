@@ -42,6 +42,7 @@ const ProductClient = ({product, currentUser}: ProductClientProps) => {
                             category={category}
                             createdAt={product.createdAt}
                             description={product.description}
+                            price={product.price}
                         />
                         <div>
                             <KakaoMap
@@ -52,9 +53,9 @@ const ProductClient = ({product, currentUser}: ProductClientProps) => {
                         </div>
                     </div>
                 </div>
-                <div className='mt-10'>
+                <div className="mt-8">
                     <Button
-                        label='채팅하기'
+                        label="채팅하기"
                         onClick={() => router.push('/chat')}
                     />
                 </div>

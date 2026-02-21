@@ -27,6 +27,11 @@
 .DS_Store
 *.pem
 
+# 프로젝트 문서 (GitHub에 올리지 않음)
+MEETING_NOTES.md
+ARCHITECTURE.md
+docs/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

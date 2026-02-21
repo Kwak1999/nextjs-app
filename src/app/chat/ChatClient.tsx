@@ -1,103 +1,94 @@
-'use client'
-// 👉 Next.js App Router에서 클라이언트 컴포넌트임을 명시
-// (useState, useSWR, 이벤트 핸들링 사용 가능)
+'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { User } from "@prisma/client";
 import axios from "axios";
 import useSWR from "swr";
-
-// 채팅 메시지와 대화 정보까지 포함된 User 타입
 import { TUserWithChat } from "@/types";
-
-// 좌측 유저 목록 컴포넌트
 import Contacts from "@/app/components/chat/Contacts";
-
-// 우측 채팅 화면 컴포넌트
 import Chat from "@/app/components/chat/Chat";
 
 interface ChatClientProps {
     currentUser?: User | null;
-    // 👉 로그인한 사용자 (서버에서 내려받은 기본 User 정보)
 }
 
 const ChatClient = ({ currentUser }: ChatClientProps) => {
-
-    /**
-     * 현재 선택된 채팅 상대 정보
-     * Contacts에서 유저를 클릭하면 이 상태가 업데이트됨
-     */
     const [receiver, setReceiver] = useState({
         receiverId: "",
         receiverName: "",
         receiverImage: "",
     });
-
-    /**
-     * 모바일 화면 레이아웃 제어용 상태
-     * false → 유저 목록(Contacts) 표시
-     * true  → 채팅 화면(Chat) 표시
-     */
     const [layout, setLayout] = useState(false);
 
-    /**
-     * SWR에서 사용할 데이터 fetcher 함수
-     * /api/chat → 모든 유저 + 대화 정보 반환
-     */
-    const fetcher = (url: string) =>
-        axios.get(url).then((res) => res.data);
+    const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+    const { data: users, error, isLoading } = useSWR('/api/chat', fetcher, { refreshInterval: 1000 });
 
-    /**
-     * SWR을 이용한 실시간 채팅 데이터 요청
-     * - refreshInterval: 1000ms → 1초마다 자동 갱신
-     */
-    const { data: users, error, isLoading } = useSWR(
-        '/api/chat',
-        fetcher,
-        { refreshInterval: 1000 }
-    );
-
-    /**
-     * 전체 유저 목록(users) 중
-     * 로그인한 사용자(currentUser)와 이메일이 같은 유저를 찾음
-     * → 메시지, 대화 목록이 포함된 "현재 유저" 객체
-     */
     const currentUserWithMessage = users?.find(
         (user: TUserWithChat) => user.email === currentUser?.email
     );
 
-    // 데이터 로딩 상태 처리
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error</p>;
+    // 로딩 스켈레톤
+    if (isLoading) {
+        return (
+            <main className="h-[calc(100vh-64px)] bg-slate-50">
+                <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] h-full">
+                    <div className="hidden md:block p-4 bg-white border-r border-slate-200">
+                        <div className="h-8 w-24 bg-slate-200 rounded-lg animate-pulse mb-6" />
+                        <div className="space-y-3">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className="flex gap-3 p-3">
+                                    <div className="w-12 h-12 rounded-full bg-slate-200 animate-pulse" />
+                                    <div className="flex-1">
+                                        <div className="h-4 w-24 bg-slate-200 rounded animate-pulse mb-2" />
+                                        <div className="h-3 w-full bg-slate-100 rounded animate-pulse" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center text-slate-400">
+                        <div className="w-16 h-16 rounded-full bg-slate-200 animate-pulse mb-4" />
+                        <p className="text-sm">불러오는 중...</p>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="h-[calc(100vh-64px)] flex items-center justify-center bg-slate-50">
+                <div className="text-center p-8">
+                    <p className="text-slate-600 mb-4">채팅을 불러오는 데 실패했어요.</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition-colors"
+                    >
+                        다시 시도
+                    </button>
+                </div>
+            </main>
+        );
+    }
 
     return (
-        <main>
-            {/*
-                화면 레이아웃
-                - 모바일: 단일 컬럼
-                - 데스크탑(md 이상): [유저 목록 | 채팅 화면]
-            */}
-            <div className='grid grid-cols-[1fr] md:grid-cols-[300px_1fr]'>
-
-                {/* 유저 목록 영역 */}
-                <section className={`md:flex ${layout && 'hidden'}`}>
+        <main className="h-[calc(100vh-64px)] bg-slate-50">
+            <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] h-full max-h-[calc(100vh-64px)]">
+                <section className={`flex flex-col h-full ${layout ? 'hidden md:flex' : 'flex'}`}>
                     <Contacts
-                        users={users}                         // 전체 유저 목록
-                        currentUser={currentUserWithMessage} // 로그인한 유저
-                        setLayout={setLayout}                 // 화면 전환 제어
-                        setReceiver={setReceiver}             // 채팅 상대 설정
+                        users={users || []}
+                        currentUser={currentUserWithMessage}
+                        setLayout={setLayout}
+                        setReceiver={setReceiver}
                     />
                 </section>
-
-                {/* 채팅 화면 영역 */}
-                <section className={`md:flex ${!layout && 'hidden'}`}>
+                <section className={`flex flex-col h-full ${!layout ? 'hidden md:flex' : 'flex'}`}>
                     <Chat
-                        currentUser={currentUserWithMessage} // 로그인한 유저
-                        receiver={receiver}                   // 선택된 채팅 상대
-                        setLayout={setLayout}                 // 뒤로가기용
+                        currentUser={currentUserWithMessage}
+                        receiver={receiver}
+                        setLayout={setLayout}
                     />
                 </section>
-
             </div>
         </main>
     );

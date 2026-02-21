@@ -310,3 +310,86 @@ npm run start
 # Prisma Studio (DB 확인)
 npx prisma studio
 ```
+
+---
+
+## **설치된 의존성 및 패키지**
+
+### 프로젝트 생성
+```bash
+npx create-next-app@latest --typescript
+```
+
+### 인증 관련
+```bash
+npm install next-auth@^4.22.1
+npm install @auth/prisma-adapter@^2.11.0
+npm install @next-auth/prisma-adapter@^1.0.6
+npm install bcryptjs@^2.4.3
+npm install -D @types/bcryptjs@^2.4.6
+```
+
+### 데이터베이스 (Prisma + PostgreSQL)
+```bash
+npm install @prisma/client@^4.13.0
+npm install @prisma/extension-accelerate@^2.0.2
+npm install -D prisma@^4.13.0
+
+# Prisma 초기화
+npx prisma init
+
+# 스키마 동기화
+npx prisma db push
+
+# Prisma 클라이언트 생성
+npx prisma generate
+```
+
+### 폼 및 상태 관리
+```bash
+npm install react-hook-form@^7.66.0
+npm install swr@^2.3.8
+```
+
+### UI 라이브러리
+```bash
+npm install react-icons@^5.5.0
+npm install react-toastify@^11.0.5
+npm install react-loader-spinner@^8.0.0
+npm install @lucasmogari/react-pagination@^2.1.0
+```
+
+### 외부 API 연동
+```bash
+npm install next-cloudinary@^6.17.4
+npm install react-kakao-maps-sdk@^1.2.0
+```
+
+### 유틸리티
+```bash
+npm install axios@^1.4.0
+npm install dayjs@^1.11.19
+npm install query-string@^9.3.1
+```
+
+### 개발 도구
+```bash
+npm install -D typescript@^5
+npm install -D @types/node@^20
+npm install -D @types/react@^19
+npm install -D @types/react-dom@^19
+npm install -D tailwindcss@^4
+npm install -D @tailwindcss/postcss@^4
+npm install -D eslint@^9
+npm install -D eslint-config-next@15.5.6
+npm install -D @eslint/eslintrc@^3
+```
+
+### 한 번에 설치 (복사용)
+```bash
+# Dependencies
+npm install next@^15.5.7 react@19.1.0 react-dom@19.1.0 next-auth@^4.22.1 @auth/prisma-adapter@^2.11.0 @next-auth/prisma-adapter@^1.0.6 @prisma/client@^4.13.0 @prisma/extension-accelerate@^2.0.2 axios@^1.4.0 bcryptjs@^2.4.3 dayjs@^1.11.19 next-cloudinary@^6.17.4 react-hook-form@^7.66.0 react-icons@^5.5.0 react-kakao-maps-sdk@^1.2.0 react-loader-spinner@^8.0.0 react-toastify@^11.0.5 swr@^2.3.8 query-string@^9.3.1 @lucasmogari/react-pagination@^2.1.0
+
+# DevDependencies
+npm install -D typescript@^5 @types/node@^20 @types/react@^19 @types/react-dom@^19 @types/bcryptjs@^2.4.6 prisma@^4.13.0 tailwindcss@^4 @tailwindcss/postcss@^4 eslint@^9 eslint-config-next@15.5.6 @eslint/eslintrc@^3
+```

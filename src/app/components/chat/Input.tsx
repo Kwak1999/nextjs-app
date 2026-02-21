@@ -63,22 +63,17 @@ const Input = ({
             createdAt: new Date().toISOString(),
         };
 
-        // ✅ 서버 전송 promise (이미지 업로드 포함)
         const sendPromise = (async () => {
             const imageUrl = image ? await uploadImage(image as File) : null;
-
             return trigger({
                 text: message,
-                image: imageUrl,           // 서버에는 실제 URL
+                image: imageUrl,
                 receiverId: receiverId,
                 senderId: currentUserId,
             });
         })();
 
-
-        const imageUrl = image ? await uploadImage(image as File) : null;
-
-        if (message || imageUrl) {
+        if (message || image) {
             try {
                 // ✅ 여기서 “/api/chat” 캐시를 먼저 업데이트(optimistic)
                 await mutate(
@@ -139,11 +134,7 @@ const Input = ({
                 setImage(null);
                 setImagePreview(null);
             }
-        };
-
-        setMessage('');
-        setImage(null);
-        setImagePreview(null);
+        }
     }
 
     const removeImage = () => {
@@ -151,52 +142,59 @@ const Input = ({
         setImagePreview(null);
     }
 
+    const hasContent = message.trim() || image;
+
     return (
-        <form
-            onSubmit={handleSubmit}
-            className='relative flex items-center justify-between w-full gap-4 p-2 pl-4 border-[1px] border-gray-300 rounded-md shadow-sm'
-        >
-            {imagePreview &&
-                <div className='absolute right-0 w-full overflow-hidden rounded-md bottom-[4.2rem] max-w-[300px] shadow-md'>
-                    <img src={imagePreview} alt="" />
-                    <span
+        <form onSubmit={handleSubmit} className="relative">
+            {imagePreview && (
+                <div className="absolute right-0 bottom-full mb-2 w-full max-w-[200px] overflow-hidden rounded-xl shadow-lg border border-slate-200">
+                    <img src={imagePreview} alt="" className="w-full aspect-square object-cover" />
+                    <button
+                        type="button"
                         onClick={removeImage}
-                        className='absolute flex items-center justify-center p-2 text-xl text-white bg-gray-900
-           cursor-pointer top-[0.4rem] right-[0.4rem] rounded-full  opacity-60 hover:opacity-100'>
-            <CgClose />
-          </span>
+                        className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-800/80 text-white hover:bg-slate-800 transition-colors"
+                    >
+                        <CgClose size={16} />
+                    </button>
                 </div>
-            }
+            )}
 
-            <input
-                className='w-full text-base outline-none'
-                type='text'
-                placeholder='메시지를 작성해주세요.'
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-            />
-
-            <input
-                type="file"
-                className='hidden'
-                ref={imageRef}
-                onChange={(e) => previewImage(e, setImagePreview, setImage)}
-                accept='image/*'
-                multiple={false}
-            />
-
-
-            <div onClick={chooseImage} className='text-2xl text-gray-200 cursor-pointer'>
-                <IoImageOutline />
+            <div className="flex items-center gap-3 p-2 pl-4 pr-2 bg-slate-100 rounded-2xl border border-slate-200 focus-within:ring-2 focus-within:ring-teal-500/30 focus-within:border-teal-400 transition-all">
+                <input
+                    className="flex-1 py-2.5 bg-transparent text-sm outline-none placeholder:text-slate-400"
+                    type="text"
+                    placeholder="메시지를 입력하세요."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                />
+                <input
+                    type="file"
+                    className="hidden"
+                    ref={imageRef}
+                    onChange={(e) => previewImage(e, setImagePreview, setImage)}
+                    accept="image/*"
+                />
+                <button
+                    type="button"
+                    onClick={chooseImage}
+                    className="p-2 rounded-full text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                >
+                    <IoImageOutline size={22} />
+                </button>
+                <button
+                    type="submit"
+                    disabled={!hasContent}
+                    className={`flex items-center justify-center w-10 h-10 rounded-full transition-all ${
+                        hasContent
+                            ? "bg-teal-600 text-white hover:bg-teal-700 shadow-sm"
+                            : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                    }`}
+                >
+                    <RiSendPlaneLine size={20} />
+                </button>
             </div>
-            <button
-                type='submit'
-                className='flex items-center justify-center p-2 text-gray-900 bg-orange-500 rounded-lg cursor-pointer hover:bg-orange-600 disabled:opacity-60'
-            >
-                <RiSendPlaneLine className='text-white' />
-            </button>
         </form>
-    )
+    );
 }
 
 export default Input

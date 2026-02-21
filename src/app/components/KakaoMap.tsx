@@ -24,7 +24,7 @@ const KakaoMap = ({
     return (
         <Map
             center={{ lat: latitude, lng: longitude }}
-            style={{ width: "100%", height: "360px" }}
+            style={{ width: "100%", height: "360px", borderRadius: "1rem" }}
             onClick={(_, mouseEvent) => handleClick(mouseEvent)}
         >
             <MapMarker position={{ lat: latitude, lng: longitude }}>

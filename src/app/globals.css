@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* 전역: 슬레이트 배경 (차가운 그레이 - 깔끔한 느낌) */
+body {
+  background-color: #f8fafc;
+}

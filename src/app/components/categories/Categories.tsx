@@ -70,10 +70,7 @@ const Categories = () => {
     const category = params?.get('category'); // 예: ?category=interior → category = 'interior'
 
     return (
-        <div
-            className='flex flex-row items-center justify-between pt-4 overflow-x-auto'
-        >
-            {/* 모든 카테고리를 순회하며 CategoryBox 컴포넌트로 렌더링 */}
+        <div className="flex flex-row items-center justify-between gap-2 pt-6 overflow-x-auto border-b border-slate-200">
             {categories.map((item) => (
                 <CategoryBox
                     key={item.label}

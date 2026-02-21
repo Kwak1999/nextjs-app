@@ -20,33 +20,22 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
     return (
         <button
-            type='submit'
+            type="submit"
             disabled={disabled}
             onClick={onClick}
             className={`
-                relative
-                disabled:opacity-70
-                disabled:cursor-not-allowed
-                cursor-pointer
-                rounded-lg
-                hover:opacity-80
-                transition
+                relative flex items-center justify-center gap-2
+                disabled:opacity-50 disabled:cursor-not-allowed
+                cursor-pointer rounded-xl font-semibold
+                transition-all duration-200
                 w-full
-                ${outline ? 'bg-white' : 'bg-orange-500'}
-                ${outline ? 'border-black' : 'border-orange-500'}
-                ${outline ? 'text-black' : 'text-white'}
-                ${small ? 'text-sm': 'text-md'}
-                ${small ? 'py-1': 'py-3'}
-                ${small ? 'font-light': 'font-semibold'}
-                ${small ? 'border-[1px]': 'border-2'}
-                `}
+                ${outline 
+                    ? 'bg-white border-2 border-slate-300 text-slate-700 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50' 
+                    : 'bg-teal-600 text-white hover:bg-teal-700 shadow-md hover:shadow-lg'}
+                ${small ? 'text-sm py-2.5' : 'text-base py-3.5'}
+            `}
         >
-            {Icon && (
-                <Icon
-                    size={24}
-                    className='absolute left-4 top-3'
-                />
-            )}
+            {Icon && <Icon size={20} className="shrink-0" />}
             {label}
         </button>
     );

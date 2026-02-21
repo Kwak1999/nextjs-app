@@ -16,14 +16,13 @@ const PaginationLink = ({page, active, children, disabled}: PaginationLinkProps)
     const limit = PRODUCTS_PER_PAGE;
     const skip = page ? (Number(page) - 1) * limit : 0;
 
-    console.log(params?.toString())
 
     let currentQuery = {};
 
     if(params){
         currentQuery = qs.parse(params?.toString())
     }
-    console.log(currentQuery)
+    // console.log(currentQuery)
 
     const updatedQuery = {
         ...currentQuery,
@@ -31,15 +30,20 @@ const PaginationLink = ({page, active, children, disabled}: PaginationLinkProps)
         skip
     };
 
+    const href = `?${qs.stringify(updatedQuery)}`;
+
     return (
         <Link
-            href={{query: updatedQuery}}
-            className={`p-2 text-2xl
-            ${active ? "font-bold text-orange-500" : " text-gray-500"}
-            ${disabled ? "pointer-events-none text-gray-200" : ""}
-            
+            href={href}
+            className={`
+                min-w-[40px] h-10 flex items-center justify-center rounded-lg font-medium
+                transition-colors
+                ${active ? "bg-teal-600 text-white" : "text-slate-600 hover:bg-slate-100"}
+                ${disabled ? "pointer-events-none opacity-40" : ""}
             `}
-        >{children}</Link>
+        >
+            {children}
+        </Link>
     );
 };
 
