@@ -9,7 +9,8 @@ export async function getSession() {
     return await getServerSession(authOptions);
 }
 
-// ✅ 로그인된 사용자 정보 가져오기 (React cache로 동일 요청 내 중복 호출 방지)
+// ✅ 로그인된 사용자 정보 가져오기
+// (React cache로 동일 요청 내 중복 호출 방지)
 const getCurrentUser = cache(async (): Promise<User | null> => {
     try {
         // 1️⃣ 현재 세션 가져오기
