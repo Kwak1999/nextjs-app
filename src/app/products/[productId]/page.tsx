@@ -4,6 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import ProductClient from "@/app/products/[productId]/ProductClient";
 import EmptyState from "@/app/components/EmptyState";
 
+
 interface Params{
     productId: string;
 }

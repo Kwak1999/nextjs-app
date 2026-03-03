@@ -1,14 +1,16 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-
+import { cache } from "react";
+import prisma from "@/helpers/prismadb";
+import { User } from "@prisma/client";
 
 // ✅ 현재 세션 정보 가져오기 (NextAuth 서버 세션)
 export async function getSession() {
     return await getServerSession(authOptions);
 }
 
-// ✅ 로그인된 사용자 정보 가져오기
-export default async function getCurrentUser() {
+// ✅ 로그인된 사용자 정보 가져오기 (React cache로 동일 요청 내 중복 호출 방지)
+const getCurrentUser = cache(async (): Promise<User | null> => {
     try {
         // 1️⃣ 현재 세션 가져오기
         const session = await getSession();
@@ -19,7 +21,7 @@ export default async function getCurrentUser() {
         }
 
         // 3️⃣ Prisma로 이메일 기반 사용자 조회
-        const currentUser = await prisma?.user.findUnique({
+        const currentUser = await prisma.user.findUnique({
             where: { email: session.user.email },
         });
 
@@ -34,4 +36,7 @@ export default async function getCurrentUser() {
         // ❌ 에러 발생 시 null 반환
         return null;
     }
-}
+})
+
+
+export default getCurrentUser;
