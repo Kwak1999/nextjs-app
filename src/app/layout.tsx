@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import Script from "next/script";
 import ToastProvider from "@/app/components/ToastProvider";
 
 const geistSans = Geist({
@@ -35,11 +34,6 @@ export default async function RootLayout({
             <Navbar currentUser = {currentUser}/>
             <ToastProvider />
             {children}
-            <Script
-                type="text/javascript"
-                src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_SECRET_KEY}&libraries=services,clusterer&autoload=false`}
-                strategy="beforeInteractive"
-            />
       </body>
     </html>
   );
