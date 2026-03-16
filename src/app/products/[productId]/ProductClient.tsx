@@ -8,8 +8,6 @@ import dynamic from "next/dynamic";
 import Button from "@/app/components/Button";
 import {useRouter} from "next/navigation";
 import {categories} from "@/app/components/categories/Categories";
-import KakaoMapScript from "@/app/components/KakaoMapScript";
-
 interface ProductClientProps {
     product: Product & {user: User};
     currentUser: User | null;
@@ -45,7 +43,6 @@ const ProductClient = ({product, currentUser}: ProductClientProps) => {
                             description={product.description}
                             price={product.price}
                         />
-                        <KakaoMapScript />
                         <div>
                             <KakaoMap
                                 detailPage

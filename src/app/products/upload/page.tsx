@@ -13,8 +13,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { HiOutlineMap } from 'react-icons/hi';
 import { toast } from 'react-toastify';
-import KakaoMapScript from "@/app/components/KakaoMapScript";
-
 const KakaoMap = dynamic(() => import('@/app/components/KakaoMap'), { ssr: false });
 
 const ProductUploadPage = () => {
@@ -142,7 +140,6 @@ const ProductUploadPage = () => {
                                 <HiOutlineMap size={18} />
                                 <p className="text-sm">지도를 클릭하여 거래 장소를 선택하세요</p>
                             </div>
-                            <KakaoMapScript />
                             <div className="rounded-xl overflow-hidden border border-slate-200">
                                 <KakaoMap
                                     setCustomValue={setCustomValue}

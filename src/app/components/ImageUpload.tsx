@@ -10,9 +10,23 @@ interface ImageUploadProps {
     value: string;
 }
 
+const restoreBodyScroll = () => {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.position = '';
+};
+
 const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
     const handleUpload = (result: any) => {
         onChange(result.info.secure_url);
+        restoreBodyScroll();
+        setTimeout(restoreBodyScroll, 100);
+    };
+
+    const handleClose = () => {
+        restoreBodyScroll();
+        setTimeout(restoreBodyScroll, 100);
     };
 
     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
@@ -20,6 +34,7 @@ const ImageUpload = ({ onChange, value }: ImageUploadProps) => {
     return (
         <CldUploadWidget
             onSuccess={handleUpload}
+            onClose={handleClose}
             uploadPreset={uploadPreset}
             options={{ maxFiles: 1 }}
         >

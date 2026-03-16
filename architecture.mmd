@@ -1,0 +1,55 @@
+flowchart TD
+
+A[Client Browser]
+
+subgraph Client
+A1[React Components UI Rendering]
+A2[SWR Cache Client-side]
+A3[Local State useState]
+end
+
+A -->|HTTP / HTTPS| B
+
+subgraph NextJS[Next.js 15 App Router]
+B1[Server Components RSC\nPrisma Direct Fetch\nSEO Optimization\nInitial HTML Rendering]
+B2[Client Components\nUser Interaction\nBrowser API\nuseState useEffect]
+B3[Middleware\nJWT Token Verification\nRoute Protection\nRole Authorization]
+B4[API Route Handlers\nREST API\nBusiness Logic\nValidation & Error Handling]
+end
+
+B --> B1
+B --> B2
+B --> B3
+B --> B4
+
+B4 --> C
+
+subgraph DataLayer[Data Access Layer]
+C[Prisma ORM\nType-safe Query\nRelation Mapping\nMigration]
+end
+
+C --> D
+
+subgraph Database[PostgreSQL Database]
+D1[User]
+D2[Account]
+D3[Product]
+D4[Conversation]
+D5[Message]
+D6[Session]
+end
+
+C --> D1
+C --> D2
+C --> D3
+C --> D4
+C --> D5
+C --> D6
+
+B4 --> E
+
+subgraph External[External Services]
+E1[NextAuth OAuth]
+E2[Cloudinary Image CDN]
+E3[Kakao Map API]
+end
